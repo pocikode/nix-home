@@ -18,7 +18,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    direnv
+    bat
     nixd
     nixfmt-rfc-style
     vim
@@ -61,8 +61,8 @@
   };
 
   imports = [
-    ./shell/zsh.nix
     ./app
+    ./shell
   ];
 
   # Let Home Manager install and manage itself.
