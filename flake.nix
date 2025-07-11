@@ -10,8 +10,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nvf = {
-      url = "github:notashelf/nvf";
+    nixvim = {
+      url = "github:pocikode/nixvim-config";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -35,7 +35,6 @@
         # Specify your home configuration modules here, for example,
         # the path to your home.nix.
         modules = [
-          inputs.nvf.homeManagerModules.default
           ./home-manager/home.nix
         ];
 

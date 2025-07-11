@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -18,6 +23,8 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    inputs.nixvim.packages.x86_64-linux.default
+
     bat
     nixd
     nixfmt-rfc-style
