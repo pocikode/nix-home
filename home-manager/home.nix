@@ -26,6 +26,9 @@
     inputs.nixvim.packages.x86_64-linux.default
 
     bat
+    fzf
+    fzf-zsh
+    gettext
     nixd
     nixfmt-rfc-style
     vim
