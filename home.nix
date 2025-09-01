@@ -20,21 +20,6 @@
   # release notes.
   home.stateVersion = "25.05"; # Please read the comment before changing.
 
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
-  home.packages = with pkgs; [
-    inputs.nixvim.packages.x86_64-linux.default
-
-    bat
-    fzf
-    fzf-zsh
-    gettext
-    nixd
-    nixfmt-rfc-style
-    vim
-    uv
-  ];
-
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
@@ -75,6 +60,40 @@
     ./shell
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+  programs.zsh.enable = true;
+
+  targets.genericLinux.enable = true;
+  fonts.fontconfig.enable = true;
+  xdg = {
+    enable = true;
+    mime.enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "x-scheme-handler/http" = [ "google-chrome.desktop" ];
+        "x-scheme-handler/https" = [ "google-chrome.desktop" ];
+        "text/html" = [ "google-chrome.desktop" ];
+        "application/xhtml+xml" = [ "google-chrome.desktop" ];
+      };
+    };
+  };
+
+  home.activation = {
+    linkDesktopApplications = {
+      after = [
+        "writeBoundary"
+        "createXdgUserDirectories"
+      ];
+      before = [ ];
+      data = ''
+        rm -rf ${config.xdg.dataHome}/"applications/home-manager"
+        mkdir -p ${config.xdg.dataHome}/"applications/home-manager"
+        cp -Lr ${config.home.homeDirectory}/.nix-profile/share/applications/* ${config.xdg.dataHome}/"applications/home-manager/"
+      '';
+    };
+  };
 }
