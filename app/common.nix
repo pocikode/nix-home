@@ -3,7 +3,6 @@
 {
   home.packages = with pkgs; [
     bitwarden-desktop
-    firefox-devedition
     google-chrome
     neovim
     spotify

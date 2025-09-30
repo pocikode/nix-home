@@ -24,12 +24,10 @@ let
         "$time"
         "[▓▒░](fg:white)"
         "[╶╮ ](fg:white)"
-        "\n[╰─](fg:white)$character"
+        "[╰─](fg:white)$character"
       ];
 
-      right_format = lib.concatStrings [
-        "[─╯](fg:white)"
-      ];
+      right_format = lib.concatStrings [ "[─╯](fg:white)" ];
 
       character = {
         success_symbol = "[󰍟](fg:green)";
@@ -87,15 +85,33 @@ let
         "($git_branch$git_status)"
         "$direnv"
         "($golang$python)"
+        "$conda"
         "$nix_shell"
         "$cmd_duration"
-        "\n[╰─](fg:white)$character"
+        ''
+
+          [╰─](fg:white)$character''
       ];
+
+      palette = "tokyo-night";
+      palettes = {
+        "tokyo-night" = {
+          blue = "#7AA2F7";
+          purple = "#BB9AF7";
+          orange = "#FF9E64";
+          red = "#F7768E";
+          green = "#41A6B5";
+          cyan = "#7DCFFF";
+          brown = "#CBCCD1";
+          gray = "#787C99";
+          white = "#D5D6DB";
+        };
+      };
 
       username = {
         disabled = false;
         show_always = true;
-        format = "[](blue)[  $user](bg:blue fg:black)[](blue)";
+        format = "[](blue)[ $user](bg:blue fg:black)[](blue)";
       };
 
       directory = {
@@ -107,7 +123,7 @@ let
       };
 
       time = {
-        disabled = false;
+        disabled = true;
         time_format = "%H:%I";
         style = "bg:green fg:black";
         format = " [](green)[  $time]($style)[](green)";
@@ -131,8 +147,8 @@ let
       direnv = {
         disabled = false;
         symbol = "󱥿 ";
-        style = "bg:brown fg:black";
-        format = " [](brown)[$symbol$loaded]($style)[](brown)";
+        style = "bg:green fg:black";
+        format = " [](green)[$symbol$loaded]($style)[](green)";
       };
 
       golang = {
@@ -144,26 +160,27 @@ let
       python = {
         symbol = " ";
         style = "bg:cyan fg:black";
-        format = ''
-          ${" [](cyan)[\${symbol}\${pyenv_prefix}($version )]($style)[](cyan)"}
-        '';
+        format =
+          "${" [](cyan)[\${symbol}\${pyenv_prefix}($version )]($style)[](cyan)"}";
+      };
+
+      conda = {
+        style = "bg:gray fg:white";
+        format = " [](gray)[$symbol$environment]($style)[](gray)";
       };
 
       nix_shell = {
         disabled = false;
         symbol = " ";
         style = "bg:brown fg:black";
-        format = " [](brown)[$symbol$state( \($name\))]($style)[](brown)";
+        format = " [](brown)[$symbol$state( ($name))]($style)[](brown)";
       };
     };
   };
-in
-{
+in {
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
-    settings = settings.pills // {
-      add_newline = true;
-    };
+    settings = settings.pills // { add_newline = true; };
   };
 }
